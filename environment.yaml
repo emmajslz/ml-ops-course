@@ -1,0 +1,9 @@
+name: mlops
+channels:
+  - conda-forge
+  - defaults
+dependencies:
+  - numpy
+  - pandas
+  - mlflow
+  - scikit-learn
