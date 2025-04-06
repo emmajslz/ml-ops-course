@@ -1,0 +1,13 @@
+Weight_kg
+Age_20-25
+Age_25-30
+Hormonal_Imbalance_Yes
+Hyperandrogenism_Yes
+Hirsutism_Yes
+Conception_Difficulty_Yes
+Insulin_Resistance_Yes
+Exercise_Frequency_Never
+Exercise_Duration_More than 30 minutes
+Exercise_Duration_Not Applicable
+Sleep_Hours_Less than 6 hours
+Exercise_Benefit_Somewhat

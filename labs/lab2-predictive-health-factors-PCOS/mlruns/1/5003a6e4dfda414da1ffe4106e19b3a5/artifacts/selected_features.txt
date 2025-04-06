@@ -1,0 +1,35 @@
+Weight_kg
+Age_20-25
+Age_25-30
+Age_30-25
+Age_30-35
+Age_30-40
+Age_35-44
+Age_45 and above
+Hormonal_Imbalance_Unknown
+Hormonal_Imbalance_Yes
+Hyperandrogenism_Yes
+Hirsutism_Unknown
+Hirsutism_Yes
+Conception_Difficulty_Unknown
+Conception_Difficulty_Yes
+Insulin_Resistance_Unknown
+Insulin_Resistance_Yes
+Exercise_Frequency_3-4 Times a Week
+Exercise_Frequency_6-8 Times a Week
+Exercise_Frequency_Never
+Exercise_Frequency_Rarely
+Exercise_Type_Flexibility and balance
+Exercise_Type_High-intensity interval training (HIIT)
+Exercise_Type_No Exercise
+Exercise_Type_Strength training
+Exercise_Type_Unknown
+Exercise_Duration_Less than 30 minutes
+Exercise_Duration_More than 30 minutes
+Exercise_Duration_Not Applicable
+Sleep_Hours_9-12 hours
+Sleep_Hours_Less than 6 hours
+Sleep_Hours_More than 12 hours
+Exercise_Benefit_Not at All
+Exercise_Benefit_Somewhat
+Exercise_Benefit_Yes Significantly

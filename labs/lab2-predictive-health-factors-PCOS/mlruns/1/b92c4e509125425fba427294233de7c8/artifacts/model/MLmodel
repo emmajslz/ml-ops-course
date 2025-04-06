@@ -1,0 +1,41 @@
+artifact_path: model
+flavors:
+  python_function:
+    env:
+      conda: conda.yaml
+      virtualenv: python_env.yaml
+    loader_module: mlflow.sklearn
+    model_path: model.pkl
+    predict_fn: predict
+    python_version: 3.12.9
+  sklearn:
+    code: null
+    pickled_model: model.pkl
+    serialization_format: cloudpickle
+    sklearn_version: 1.6.1
+is_signature_from_type_hint: false
+mlflow_version: 2.21.0
+model_size_bytes: 512797
+model_uuid: 329e44c519074d41833930a8ea98fd08
+prompts: null
+run_id: b92c4e509125425fba427294233de7c8
+saved_input_example_info:
+  artifact_path: input_example.json
+  pandas_orient: split
+  serving_input_path: serving_input_example.json
+  type: dataframe
+signature:
+  inputs: '[{"type": "double", "name": "Weight_kg", "required": true}, {"type": "string",
+    "name": "Age", "required": true}, {"type": "string", "name": "Hormonal_Imbalance",
+    "required": true}, {"type": "string", "name": "Hyperandrogenism", "required":
+    true}, {"type": "string", "name": "Hirsutism", "required": true}, {"type": "string",
+    "name": "Conception_Difficulty", "required": true}, {"type": "string", "name":
+    "Insulin_Resistance", "required": true}, {"type": "string", "name": "Exercise_Frequency",
+    "required": true}, {"type": "string", "name": "Exercise_Type", "required": true},
+    {"type": "string", "name": "Exercise_Duration", "required": true}, {"type": "string",
+    "name": "Sleep_Hours", "required": true}, {"type": "string", "name": "Exercise_Benefit",
+    "required": true}]'
+  outputs: '[{"type": "tensor", "tensor-spec": {"dtype": "int64", "shape": [-1]}}]'
+  params: null
+type_hint_from_example: false
+utc_time_created: '2025-03-25 05:11:59.890640'

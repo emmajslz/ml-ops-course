@@ -7,3 +7,4 @@ dependencies:
   - pandas
   - mlflow
   - scikit-learn
+  - sqlalchemy<2.0
