@@ -1,0 +1,913 @@
+Last login: Thu Apr 17 11:53:32 on ttys000
+(base) ~ $ cd Documents/spring-mod-2/ml-ops 
+(base) ml-ops $ conda activate mlops
+(mlops) ml-ops $ code .
+(mlops) ml-ops $ gcloud init
+Welcome! This command will take you through the configuration of gcloud.
+
+Settings from your current configuration [default] are:
+compute:
+  region: us-west1
+  zone: us-west1-a
+core:
+  account: emmajuanslz@gmail.com
+  disable_usage_reporting: 'False'
+  project: fineprint-457018
+
+Pick configuration to use:
+ [1] Re-initialize this configuration [default] with new settings 
+ [2] Create a new configuration
+ [3] Switch to and re-initialize existing configuration: [fineprint]
+Please enter your numeric choice:  1
+
+Your current configuration has been set to: [default]
+
+You can skip diagnostics next time by using the following flag:
+  gcloud init --skip-diagnostics
+
+Network diagnostic detects and fixes local network connection issues.
+Checking network connection...done.                                       
+Reachability Check passed.
+Network diagnostic passed (1/1 checks passed).
+
+Choose the account you want to use for this configuration.
+To use a federated user account, exit this command and sign in to the 
+gcloud CLI with your login configuration file, then run this command again.
+
+Select an account:
+ [1] emmajuan@stanford.edu
+ [2] emmajuanslz@gmail.com
+ [3] Sign in with a new Google Account
+ [4] Skip this step
+Please enter your numeric choice:  2
+
+You are signed in as: [emmajuanslz@gmail.com].
+
+Pick cloud project to use: 
+ [1] emmajuan-msds-697-spring25
+ [2] fineprint-457018
+ [3] msds-ml-ops-25
+ [4] sentiment-analyst-search
+ [5] Enter a project ID
+ [6] Create a new project
+Please enter numeric choice or text value (must exactly match list item):  3
+
+Your current project has been set to: [msds-ml-ops-25].
+
+Not setting default zone/region (this feature makes it easier to use
+[gcloud compute] by setting an appropriate default value for the
+--zone and --region flag).
+See https://cloud.google.com/compute/docs/gcloud-compute section on how to set
+default compute region and zone manually. If you would like [gcloud init] to be
+able to do this for you the next time you run it, make sure the
+Compute Engine API is enabled for your project on the
+https://console.developers.google.com/apis page.
+
+The Google Cloud CLI is configured and ready to use!
+
+* Commands that require authentication will use emmajuanslz@gmail.com by default
+* Commands will reference project `msds-ml-ops-25` by default
+Run `gcloud help config` to learn how to change individual settings
+
+This gcloud configuration is called [default]. You can create additional configurations if you work with multiple accounts and/or projects.
+Run `gcloud topic configurations` to learn more.
+
+Some things to try next:
+
+* Run `gcloud --help` to see the Cloud Platform services you can interact with. And run `gcloud help COMMAND` to get help on any gcloud command.
+* Run `gcloud topic --help` to learn about advanced features of the CLI like arg files and output formatting
+* Run `gcloud cheat-sheet` to see a roster of go-to `gcloud` commands.
+
+
+Updates are available for some Google Cloud CLI components.  To install them,
+please run:
+  $ gcloud components update
+
+(mlops) ml-ops $ gcloud sql instances create mlops-25 --database-version=POSTGRES_15 --region=us-west2 --tier=db-f1-micro --storage-type=HDD --storage-size=10GB --authorized-networks=0.0.0.0/0
+API [sqladmin.googleapis.com] not enabled on project [msds-ml-ops-25]. 
+Would you like to enable and retry (this will take a few minutes)? (y/N)?  y
+
+Enabling service [sqladmin.googleapis.com] on project [msds-ml-ops-25]...
+Operation "operations/acat.p2-634030133521-395a3089-508a-4d76-9826-753dd7b77c3f" finished successfully.
+Creating Cloud SQL instance for POSTGRES_15...done.                       
+Created [https://sqladmin.googleapis.com/sql/v1beta4/projects/msds-ml-ops-25/instances/mlops-25].
+NAME      DATABASE_VERSION  LOCATION    TIER         PRIMARY_ADDRESS  PRIVATE_ADDRESS  STATUS
+mlops-25  POSTGRES_15       us-west2-c  db-f1-micro  34.102.107.110   -                RUNNABLE
+(mlops) ml-ops $ gcloud sql users create emmajslz --instance=mlops-25 --password="EMalcaju13--"
+Creating Cloud SQL user...done.                                           
+Created user [emmajslz].
+(mlops) ml-ops $ gcloud sql databases create mlops-25 --instance=mlops-25
+Creating Cloud SQL database...done.                                       
+Created database [mlops-25].
+instance: mlops-25
+name: mlops-25
+project: msds-ml-ops-25
+(mlops) ml-ops $ gcloud storage buckets create gs://mlops-25
+Creating gs://mlops-25/...
+(mlops) ml-ops $ gsutil mkdir gs://mlops-25/mlruns
+CommandException: The mb command requires a URL that specifies a bucket.
+"gs://mlops-25/mlruns" is not valid.
+(mlops) ml-ops $ gsutil cp /dev/null gs://mlops-25/mlruns/
+Copying file:///dev/null [Content-Type=application/octet-stream]...
+/ [0 files][    0.0 B/    0.0 B]                                           / [1 files][    0.0 B/    0.0 B]                                                
+Operation completed over 1 objects.                                              
+(mlops) ml-ops $ gcloud artifacts repositories create mlops-25 --location=us-west2 --repository-format=docker
+API [artifactregistry.googleapis.com] not enabled on project 
+[msds-ml-ops-25]. Would you like to enable and retry (this will take a few 
+minutes)? (y/N)?  y
+
+Enabling service [artifactregistry.googleapis.com] on project [msds-ml-ops-25]...
+Operation "operations/acat.p2-634030133521-5622f0d0-ddcd-459e-9e5e-d8b92b1206ee" finished successfully.
+Create request issued for: [mlops-25]
+Waiting for operation [projects/msds-ml-ops-25/locations/us-west2/operatio
+ns/03cdcdee-4b8a-4a62-a609-03b81d1e7953] to complete...done.              
+Created repository [mlops-25].
+(mlops) ml-ops $ gcloud iam service--acounts create mlops-25
+ERROR: (gcloud.iam) Invalid choice: 'service--acounts'.
+Maybe you meant:
+  gcloud iam service-accounts add-iam-policy-binding
+  gcloud iam oauth-clients create
+  gcloud iam policies create
+  gcloud iam policy-bindings create
+  gcloud iam principal-access-boundary-policies create
+  gcloud iam roles create
+  gcloud iam service-accounts create
+  gcloud iam workforce-pools create
+  gcloud iam workload-identity-pools create
+  gcloud iam service-accounts get-iam-policy
+
+To search the help text of gcloud commands, run:
+  gcloud help -- SEARCH_TERMS
+(mlops) ml-ops $ gcloud iam service-acounts create mlops-25 
+ERROR: (gcloud.iam) Invalid choice: 'service-acounts'.
+Maybe you meant:
+  gcloud iam service-accounts add-iam-policy-binding
+  gcloud iam oauth-clients create
+  gcloud iam policies create
+  gcloud iam policy-bindings create
+  gcloud iam principal-access-boundary-policies create
+  gcloud iam roles create
+  gcloud iam service-accounts create
+  gcloud iam workforce-pools create
+  gcloud iam workload-identity-pools create
+  gcloud iam service-accounts get-iam-policy
+
+To search the help text of gcloud commands, run:
+  gcloud help -- SEARCH_TERMS
+(mlops) ml-ops $ gcloud iam service-accounts create mlops-25
+Created service account [mlops-25].
+(mlops) ml-ops $ gcloud config get-value project
+msds-ml-ops-25
+(mlops) ml-ops $ gcloud projects add-iam-policy-binding msds-ml-ops-25 --member='serviceAccount:mlops-25@msds-ml-ops-25.iam.gserviceaccount.com' --role='roles/cloudsql.editor'
+Updated IAM policy for project [msds-ml-ops-25].
+bindings:
+- members:
+  - serviceAccount:service-634030133521@gcp-sa-artifactregistry.iam.gserviceaccount.com
+  role: roles/artifactregistry.serviceAgent
+- members:
+  - serviceAccount:mlops-25@msds-ml-ops-25.iam.gserviceaccount.com
+  role: roles/cloudsql.editor
+- members:
+  - user:emmajuanslz@gmail.com
+  role: roles/owner
+etag: BwYy_3vqQIc=
+version: 1
+(mlops) ml-ops $ gcloud projects add-iam-policy-binding msds-ml-ops-25 --member='serviceAccount:mlops-25@msds-ml-ops-25.iam.gserviceaccount.com' --role='roles/storage.objectAdmin'
+Updated IAM policy for project [msds-ml-ops-25].
+bindings:
+- members:
+  - serviceAccount:service-634030133521@gcp-sa-artifactregistry.iam.gserviceaccount.com
+  role: roles/artifactregistry.serviceAgent
+- members:
+  - serviceAccount:mlops-25@msds-ml-ops-25.iam.gserviceaccount.com
+  role: roles/cloudsql.editor
+- members:
+  - user:emmajuanslz@gmail.com
+  role: roles/owner
+- members:
+  - serviceAccount:mlops-25@msds-ml-ops-25.iam.gserviceaccount.com
+  role: roles/storage.objectAdmin
+etag: BwYy_3yjGu0=
+version: 1
+(mlops) ml-ops $ gcloud projects add-iam-policy-binding msds-ml-ops-25 --member='serviceAccount:mlops-25@msds-ml-ops-25.iam.gserviceaccount.com' --role='roles/storage.secretmanager.secretAccessor'
+ERROR: Policy modification failed. For a binding with condition, run "gcloud alpha iam policies lint-condition" to identify issues in condition.
+ERROR: (gcloud.projects.add-iam-policy-binding) INVALID_ARGUMENT: Role roles/storage.secretmanager.secretAccessor is not supported for this resource.
+(mlops) ml-ops $ gcloud projects add-iam-policy-binding msds-ml-ops-25 --member='serviceAccount:mlops-25@msds-ml-ops-25.iam.gserviceaccount.com' --role='roles/secretmanager.secretAccessor' 
+Updated IAM policy for project [msds-ml-ops-25].
+bindings:
+- members:
+  - serviceAccount:service-634030133521@gcp-sa-artifactregistry.iam.gserviceaccount.com
+  role: roles/artifactregistry.serviceAgent
+- members:
+  - serviceAccount:mlops-25@msds-ml-ops-25.iam.gserviceaccount.com
+  role: roles/cloudsql.editor
+- members:
+  - user:emmajuanslz@gmail.com
+  role: roles/owner
+- members:
+  - serviceAccount:mlops-25@msds-ml-ops-25.iam.gserviceaccount.com
+  role: roles/secretmanager.secretAccessor
+- members:
+  - serviceAccount:mlops-25@msds-ml-ops-25.iam.gserviceaccount.com
+  role: roles/storage.objectAdmin
+etag: BwYy_39SIMY=
+version: 1
+(mlops) ml-ops $ gcloud projects add-iam-policy-binding msds-ml-ops-25 --member='serviceAccount:mlops-25@msds-ml-ops-25.iam.gserviceaccount.com' --role='roles/artifactregistry.admin'      
+Updated IAM policy for project [msds-ml-ops-25].
+bindings:
+- members:
+  - serviceAccount:mlops-25@msds-ml-ops-25.iam.gserviceaccount.com
+  role: roles/artifactregistry.admin
+- members:
+  - serviceAccount:service-634030133521@gcp-sa-artifactregistry.iam.gserviceaccount.com
+  role: roles/artifactregistry.serviceAgent
+- members:
+  - serviceAccount:mlops-25@msds-ml-ops-25.iam.gserviceaccount.com
+  role: roles/cloudsql.editor
+- members:
+  - user:emmajuanslz@gmail.com
+  role: roles/owner
+- members:
+  - serviceAccount:mlops-25@msds-ml-ops-25.iam.gserviceaccount.com
+  role: roles/secretmanager.secretAccessor
+- members:
+  - serviceAccount:mlops-25@msds-ml-ops-25.iam.gserviceaccount.com
+  role: roles/storage.objectAdmin
+etag: BwYy_4BbGJg=
+version: 1
+(mlops) ml-ops $ gcloud projects add-iam-policy-binding msds-ml-ops-25 --member='serviceAccount:mlops-25@msds-ml-ops-25.iam.gserviceaccount.com' --role='roles/clouddeploy.serviceAgent'
+Updated IAM policy for project [msds-ml-ops-25].
+bindings:
+- members:
+  - serviceAccount:mlops-25@msds-ml-ops-25.iam.gserviceaccount.com
+  role: roles/artifactregistry.admin
+- members:
+  - serviceAccount:service-634030133521@gcp-sa-artifactregistry.iam.gserviceaccount.com
+  role: roles/artifactregistry.serviceAgent
+- members:
+  - serviceAccount:mlops-25@msds-ml-ops-25.iam.gserviceaccount.com
+  role: roles/clouddeploy.serviceAgent
+- members:
+  - serviceAccount:mlops-25@msds-ml-ops-25.iam.gserviceaccount.com
+  role: roles/cloudsql.editor
+- members:
+  - user:emmajuanslz@gmail.com
+  role: roles/owner
+- members:
+  - serviceAccount:mlops-25@msds-ml-ops-25.iam.gserviceaccount.com
+  role: roles/secretmanager.secretAccessor
+- members:
+  - serviceAccount:mlops-25@msds-ml-ops-25.iam.gserviceaccount.com
+  role: roles/storage.objectAdmin
+etag: BwYy_4Fb4ow=
+version: 1
+(mlops) ml-ops $ gcloud projects add-iam-policy-binding msds-ml-ops-25 --member='serviceAccount:mlops-25@msds-ml-ops-25.iam.gserviceaccount.com' --role='roles/cloudfunctions.admin'    
+Updated IAM policy for project [msds-ml-ops-25].
+bindings:
+- members:
+  - serviceAccount:mlops-25@msds-ml-ops-25.iam.gserviceaccount.com
+  role: roles/artifactregistry.admin
+- members:
+  - serviceAccount:service-634030133521@gcp-sa-artifactregistry.iam.gserviceaccount.com
+  role: roles/artifactregistry.serviceAgent
+- members:
+  - serviceAccount:mlops-25@msds-ml-ops-25.iam.gserviceaccount.com
+  role: roles/clouddeploy.serviceAgent
+- members:
+  - serviceAccount:mlops-25@msds-ml-ops-25.iam.gserviceaccount.com
+  role: roles/cloudfunctions.admin
+- members:
+  - serviceAccount:mlops-25@msds-ml-ops-25.iam.gserviceaccount.com
+  role: roles/cloudsql.editor
+- members:
+  - user:emmajuanslz@gmail.com
+  role: roles/owner
+- members:
+  - serviceAccount:mlops-25@msds-ml-ops-25.iam.gserviceaccount.com
+  role: roles/secretmanager.secretAccessor
+- members:
+  - serviceAccount:mlops-25@msds-ml-ops-25.iam.gserviceaccount.com
+  role: roles/storage.objectAdmin
+etag: BwYy_4I4xkY=
+version: 1
+(mlops) ml-ops $ gcloud iam service-accounts keys create sa-private-key.json --iam-account=mlops-25@msds-ml-ops-25.iam.gserviceaccount.com
+created key [a99ac21edff4db6ddf99ae4cd61865e7f64bd576] of type [json] as [sa-private-key.json] for [mlops-25@msds-ml-ops-25.iam.gserviceaccount.com]
+(mlops) ml-ops $ gcloud secrets create access_keys --date-file=sa-private-key.json
+ERROR: (gcloud.secrets.create) unrecognized arguments: --date-file=sa-private-key.json (did you mean '--data-file'?) 
+
+To search the help text of gcloud commands, run:
+  gcloud help -- SEARCH_TERMS
+(mlops) ml-ops $ gcloud screts create access_key --data-file=sa-private-key.json
+ERROR: (gcloud) Invalid choice: 'screts'.
+Maybe you meant:
+  gcloud workspace-add-ons deployments create
+  gcloud projects create
+  gcloud projects add-iam-policy-binding
+  gcloud workspace-add-ons get-authorization
+  gcloud compute addresses create
+  gcloud network-security address-groups create
+  gcloud network-security org-address-groups create
+  gcloud network-security address-groups add-items
+  gcloud network-security org-address-groups add-items
+  gcloud workspace-add-ons deployments delete
+
+To search the help text of gcloud commands, run:
+  gcloud help -- SEARCH_TERMS
+(mlops) ml-ops $ gcloud secrets create access_key --data-file=sa-private-key.json
+API [secretmanager.googleapis.com] not enabled on project [msds-ml-ops-25].
+ Would you like to enable and retry (this will take a few minutes)? (y/N)?
+  y
+
+Enabling service [secretmanager.googleapis.com] on project [msds-ml-ops-25]...
+Operation "operations/acat.p2-634030133521-1777e275-1227-4fc8-9a37-ad73069fd95a" finished successfully.
+Created version [1] of the secret [access_key].
+(mlops) ml-ops $ gcloud sql instances describe mlops-25
+backendType: SECOND_GEN
+connectionName: msds-ml-ops-25:us-west2:mlops-25
+createTime: '2025-04-17T20:11:40.833Z'
+databaseInstalledVersion: POSTGRES_15_12
+databaseVersion: POSTGRES_15
+etag: 3ebd445145c9ea2ffad22d179449e3363b561e652d391b55b38649a20a43133b
+gceZone: us-west2-c
+geminiConfig:
+  activeQueryEnabled: false
+  entitled: false
+  googleVacuumMgmtEnabled: false
+  indexAdvisorEnabled: false
+  oomSessionCancelEnabled: true
+includeReplicasForMajorVersionUpgrade: false
+instanceType: CLOUD_SQL_INSTANCE
+ipAddresses:
+- ipAddress: 34.102.107.110
+  type: PRIMARY
+- ipAddress: 34.94.210.22
+  type: OUTGOING
+kind: sql#instance
+maintenanceVersion: POSTGRES_15_12.R20250302.00_04
+name: mlops-25
+project: msds-ml-ops-25
+region: us-west2
+satisfiesPzi: true
+selfLink: https://sqladmin.googleapis.com/sql/v1beta4/projects/msds-ml-ops-25/instances/mlops-25
+serverCaCert:
+  cert: |-
+    -----BEGIN CERTIFICATE-----
+    MIIDfzCCAmegAwIBAgIBADANBgkqhkiG9w0BAQsFADB3MS0wKwYDVQQuEyQ4MzNh
+    MmYyMC0xYjdkLTQ1NWMtODc1ZC0zZThkOGY1NDQ0NmUxIzAhBgNVBAMTGkdvb2ds
+    ZSBDbG91ZCBTUUwgU2VydmVyIENBMRQwEgYDVQQKEwtHb29nbGUsIEluYzELMAkG
+    A1UEBhMCVVMwHhcNMjUwNDE3MjAxMjA1WhcNMzUwNDE1MjAxMzA1WjB3MS0wKwYD
+    VQQuEyQ4MzNhMmYyMC0xYjdkLTQ1NWMtODc1ZC0zZThkOGY1NDQ0NmUxIzAhBgNV
+    BAMTGkdvb2dsZSBDbG91ZCBTUUwgU2VydmVyIENBMRQwEgYDVQQKEwtHb29nbGUs
+    IEluYzELMAkGA1UEBhMCVVMwggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIB
+    AQCWgPj2W9UhcuyjAUw34gclSpI07ou1zNICRD4d8vTfYjsOGcUKg1jwgEf/zYBh
+    KryDyHpZOyQLFazTvtY7uBmmOt2+tMGSmQV5fyjBvXxO5FATUgiHZjXMuGZVm3/Z
+    Zx6o9tCb4frKZlM7qU030YUXXIXgP37WjTl8JQ/rE8Gur0pmoWD4NWoVbBj7VfMZ
+    +vLOcypuUSACeEnWWYJ594NCO7D5wiB4EjOHrj0OxViH59e5Gc8eIn7GWcx0MCDE
+    LdphbxcuzmYNcjtiMkBma7t+mjGwLeKaMdvpppHFDAkKMZquk8iP50o8TW9DFb75
+    xctwcbWAtu5AJidQ16BTA8tPAgMBAAGjFjAUMBIGA1UdEwEB/wQIMAYBAf8CAQAw
+    DQYJKoZIhvcNAQELBQADggEBAAoGa039ZMdcB5TINqpnwpVwt++QaGGlcsh/Np51
+    IY9nFhkkDDJnk0UCfOSVZ22lW0gq9kOt1TQybxW/G/b/YxxdvXLhBjrapATCyFT9
+    LAj7EGgV1jhxFaL7R7kkyZScT4uawgS/TqyTF2bYpCXxtxD6qpX6fv2gS0TawVEb
+    M71bDijFK1DuTz8vNE3dhjWBpo2wsfn45Ik8SKNEvz32OyNdK+ZRKkaTJKlGpMHG
+    SQMnmV/rcU8gO2ve2mU/aJO22tqUVVjAOKNitv1Xb5jd3WUVt1fwXHtkhoHuRHfL
+    elUyMYmw0XCmBoDTrCs8TM6qpzcBTuDbdJ0nVC46YztG8fQ=
+    -----END CERTIFICATE-----
+  certSerialNumber: '0'
+  commonName: C=US,O=Google\, Inc,CN=Google Cloud SQL Server CA,dnQualifier=833a2f20-1b7d-455c-875d-3e8d8f54446e
+  createTime: '2025-04-17T20:12:05.530Z'
+  expirationTime: '2035-04-15T20:13:05.530Z'
+  instance: mlops-25
+  kind: sql#sslCert
+  sha1Fingerprint: 2949604662203ec9bc192dc4d3a5a6a62124c2d9
+serviceAccountEmailAddress: p634030133521-lq9qni@gcp-sa-cloud-sql.iam.gserviceaccount.com
+settings:
+  activationPolicy: ALWAYS
+  availabilityType: ZONAL
+  backupConfiguration:
+    backupRetentionSettings:
+      retainedBackups: 7
+      retentionUnit: COUNT
+    enabled: false
+    kind: sql#backupConfiguration
+    startTime: 08:00
+    transactionLogRetentionDays: 7
+    transactionalLogStorageState: TRANSACTIONAL_LOG_STORAGE_STATE_UNSPECIFIED
+  connectorEnforcement: NOT_REQUIRED
+  dataDiskSizeGb: '10'
+  dataDiskType: PD_HDD
+  deletionProtectionEnabled: false
+  ipConfiguration:
+    authorizedNetworks:
+    - kind: sql#aclEntry
+      name: ''
+      value: 0.0.0.0/0
+    ipv4Enabled: true
+    requireSsl: false
+    serverCaMode: GOOGLE_MANAGED_INTERNAL_CA
+    sslMode: ALLOW_UNENCRYPTED_AND_ENCRYPTED
+  kind: sql#settings
+  locationPreference:
+    kind: sql#locationPreference
+    zone: us-west2-c
+  pricingPlan: PER_USE
+  replicationLagMaxSeconds: 31536000
+  replicationType: SYNCHRONOUS
+  settingsVersion: '1'
+  storageAutoResize: true
+  storageAutoResizeLimit: '0'
+  tier: db-f1-micro
+sqlNetworkArchitecture: NEW_NETWORK_ARCHITECTURE
+state: RUNNABLE
+upgradableDatabaseVersions:
+- displayName: PostgreSQL 16
+  majorVersion: POSTGRES_16
+  name: POSTGRES_16
+- displayName: PostgreSQL 17
+  majorVersion: POSTGRES_17
+  name: POSTGRES_17
+(mlops) ml-ops $ gcloud secrets create database_url
+Created secret [database_url].
+(mlops) ml-ops $ echo -n "postgresql://emmajslz:EMalcaju13--@34.102.107.110/mlops-25" | gcloud secrets versions add database_url --data-file=-
+Created version [1] of the secret [database_url].
+(mlops) ml-ops $ gcloud secrets create bucket_url
+Created secret [bucket_url].
+(mlops) ml-ops $ echo -n "gs://mlops-25/mlruns" | gcloud secrets versions add bucket_url --data-file=-
+Created version [1] of the secret [bucket_url].
+(mlops) ml-ops $ cd labs/lab5          
+(mlops) lab5 $ touch requirements.txt
+(mlops) lab5 $ vim requirements.txt 
+(mlops) lab5 $ touch Dockerfile
+(mlops) lab5 $ vim Dockerfile
+(mlops) lab5 $ touch server.sh
+(mlops) lab5 $ vim server.sh
+(mlops) lab5 $ gcloud auth configure-docker us-west2-docker-pkg.dev 
+Adding credentials for: us-west2-docker-pkg.dev
+WARNING: us-west2-docker-pkg.dev is not a supported registry
+gcloud credential helpers already registered correctly.
+(mlops) lab5 $ docker build --platform linux/amd64 -t "us-west2-docker.pkg.dev/msds-ml-ops-25/mlops-25/mlflow:v1" .
+[+] Building 110.4s (11/11) FINISHED                          docker:desktop-linux
+ => [internal] load build definition from Dockerfile                          0.0s
+ => => transferring dockerfile: 332B                                          0.0s
+ => [internal] load metadata for docker.io/library/python:3.12-slim           2.0s
+ => [auth] library/python:pull token for registry-1.docker.io                 0.0s
+ => [internal] load .dockerignore                                             0.0s
+ => => transferring context: 2B                                               0.0s
+ => [1/6] FROM docker.io/library/python:3.12-slim@sha256:85824326bc4ae27a1a  19.8s
+ => => resolve docker.io/library/python:3.12-slim@sha256:85824326bc4ae27a1ab  0.0s
+ => => sha256:6cca951a45d16183402c0ea0d763285dff4024af76a751 3.51MB / 3.51MB  5.7s
+ => => sha256:b3b4f30c6749b72e9b25139714a21ee8c3c5689b213a 13.66MB / 13.66MB  9.2s
+ => => sha256:85824326bc4ae27a1abb5bc0dd9e08847aa5fe73d8afb5 9.13kB / 9.13kB  0.0s
+ => => sha256:a08295c4819f91ab6bbf02a62f2d70b87a3b76ac79fecf 1.75kB / 1.75kB  0.0s
+ => => sha256:3d1d8f39b99d1a90422205ebfa504475db03aabe1ae4f9 5.51kB / 5.51kB  0.0s
+ => => sha256:8a628cdd7ccc83e90e5a95888fcb0ec24b991141176 28.23MB / 28.23MB  18.7s
+ => => sha256:e9ddbe7a005f6950194f9ec89ccfff2c86729491901f767d8b 249B / 249B  6.0s
+ => => extracting sha256:8a628cdd7ccc83e90e5a95888fcb0ec24b991141176c515ad10  0.6s
+ => => extracting sha256:6cca951a45d16183402c0ea0d763285dff4024af76a75119fb4  0.1s
+ => => extracting sha256:b3b4f30c6749b72e9b25139714a21ee8c3c5689b213a023c7b4  0.3s
+ => => extracting sha256:e9ddbe7a005f6950194f9ec89ccfff2c86729491901f767d8b0  0.0s
+ => [internal] load build context                                             0.0s
+ => => transferring context: 362B                                             0.0s
+ => [2/6] COPY requirements.txt requirements.txt                              0.1s
+ => [3/6] COPY server.sh server.sh                                            0.0s
+ => [4/6] RUN pip install --upgrade pip && pip install -r requirements.txt   86.6s
+ => [5/6] RUN chmod +x server.sh                                              0.1s 
+ => exporting to image                                                        1.7s 
+ => => exporting layers                                                       1.7s 
+ => => writing image sha256:b2e48d0066a330745195a084cbc253f51bb2df76bf280569  0.0s 
+ => => naming to us-west2-docker.pkg.dev/msds-ml-ops-25/mlops-25/mlflow:v1    0.0s 
+                                                                                   
+ 1 warning found (use docker --debug to expand):
+ - SecretsUsedInArgOrEnv: Do not use ARG or ENV instructions for sensitive data (ENV "GOOGLE_APPLICATION_CREDENTIALS") (line 8)
+(mlops) lab5 $ docker push "us-west2-docker.pkg.dev/msds-ml-ops-25/mlops-25:v1"
+The push refers to repository [us-west2-docker.pkg.dev/msds-ml-ops-25/mlops-25]
+An image does not exist locally with the tag: us-west2-docker.pkg.dev/msds-ml-ops-25/mlops-25
+(mlops) lab5 $ gcloud builds submit --tag us-west2-docker.pkg.dev/msds-ml-ops-25/mlops-25/mlflow:v1
+Creating temporary archive of 4 file(s) totalling 116.9 KiB before compression.
+Uploading tarball of [.] to [gs://msds-ml-ops-25_cloudbuild/source/1744923749.928733-8cbdc5352b324d539c6ffecbb1c40aed.tgz]
+API [cloudbuild.googleapis.com] not enabled on project [msds-ml-ops-25]. Would you 
+like to enable and retry (this will take a few minutes)? (y/N)?  y
+
+Enabling service [cloudbuild.googleapis.com] on project [msds-ml-ops-25]...
+Operation "operations/acf.p2-634030133521-f65decc0-b4c5-49f1-90a1-ab392d63bcb3" finished successfully.
+ERROR: (gcloud.builds.submit) PERMISSION_DENIED: The caller does not have permission. This command is authenticated as emmajuanslz@gmail.com which is the active account specified by the [core/account] property
+(mlops) lab5 $ gcloud services enable compute.googleapis.com
+Operation "operations/acf.p2-634030133521-3846a11e-69d0-4ffc-a514-8c87720dcdc6" finished successfully.
+(mlops) lab5 $ gcloud services enable run.googleapis.com
+Operation "operations/acf.p2-634030133521-f090670a-8ef3-4148-8c44-42ccfe848ba3" finished successfully.
+(mlops) lab5 $ gcloud auth configure-docker us-west2-docker.pkg.dev
+Adding credentials for: us-west2-docker.pkg.dev
+After update, the following will be written to your Docker config file located at 
+[/Users/emmajuansalazar/.docker/config.json]:
+ {
+  "credHelpers": {
+    "us-west2-docker.pkg.dev": "gcloud"
+  }
+}
+
+Do you want to continue (Y/n)?  y
+
+Docker configuration file updated.
+(mlops) lab5 $ docker build --platform linux/amd64 -t "us-west2-docker.pkg.dev/msds-ml-ops-25/mlops-25/mlflow:v1"
+ERROR: docker: 'docker buildx build' requires 1 argument
+
+Usage:  docker buildx build [OPTIONS] PATH | URL | -
+
+Run 'docker buildx build --help' for more information
+(mlops) lab5 $ docker build --platform linux/amd64 -t "us-west2-docker.pkg.dev/msds-ml-ops-25/mlops-25/mlflow:v1" .
+[+] Building 1.1s (11/11) FINISHED                            docker:desktop-linux
+ => [internal] load build definition from Dockerfile                          0.0s
+ => => transferring dockerfile: 332B                                          0.0s
+ => [internal] load metadata for docker.io/library/python:3.12-slim           1.1s
+ => [auth] library/python:pull token for registry-1.docker.io                 0.0s
+ => [internal] load .dockerignore                                             0.0s
+ => => transferring context: 2B                                               0.0s
+ => [1/6] FROM docker.io/library/python:3.12-slim@sha256:85824326bc4ae27a1ab  0.0s
+ => [internal] load build context                                             0.0s
+ => => transferring context: 66B                                              0.0s
+ => CACHED [2/6] COPY requirements.txt requirements.txt                       0.0s
+ => CACHED [3/6] COPY server.sh server.sh                                     0.0s
+ => CACHED [4/6] RUN pip install --upgrade pip && pip install -r requirement  0.0s
+ => CACHED [5/6] RUN chmod +x server.sh                                       0.0s
+ => exporting to image                                                        0.0s
+ => => exporting layers                                                       0.0s
+ => => writing image sha256:b2e48d0066a330745195a084cbc253f51bb2df76bf280569  0.0s
+ => => naming to us-west2-docker.pkg.dev/msds-ml-ops-25/mlops-25/mlflow:v1    0.0s
+
+ 1 warning found (use docker --debug to expand):
+ - SecretsUsedInArgOrEnv: Do not use ARG or ENV instructions for sensitive data (ENV "GOOGLE_APPLICATION_CREDENTIALS") (line 8)
+(mlops) lab5 $ docker push "us-west2-docker.pkg.dev/msds-ml-ops-25/mlops-25/mlflow:v1"
+The push refers to repository [us-west2-docker.pkg.dev/msds-ml-ops-25/mlops-25/mlflow]
+62ae0cb90d3f: Pushed 
+446b303d2b4a: Pushed 
+5938c157621e: Pushed 
+84f1e99d78e7: Pushed 
+68b89356c898: Pushed 
+e72ee629d8b7: Pushed 
+67c69e32800f: Pushed 
+ea680fbff095: Pushed 
+v1: digest: sha256:594bab2b46b88926ebcb9dea7b190e15355f1f745c8347f300c6c5e22dc0de3f size: 1993
+(mlops) lab5 $ gcloud builds submit --tag us-west2-docker.pkg.dev/msds-ml-ops-25/mlops-25/mlflow:v1
+Creating temporary archive of 4 file(s) totalling 116.9 KiB before compression.
+Uploading tarball of [.] to [gs://msds-ml-ops-25_cloudbuild/source/1744924170.535908-69f2879282b546788e298a6e7f04e134.tgz]
+Created [https://cloudbuild.googleapis.com/v1/projects/msds-ml-ops-25/locations/global/builds/262f3882-386b-4409-b06c-846b24eae7b7].
+Logs are available at [ https://console.cloud.google.com/cloud-build/builds/262f3882-386b-4409-b06c-846b24eae7b7?project=634030133521 ].
+Waiting for build to complete. Polling interval: 1 second(s).
+------------------------------- REMOTE BUILD OUTPUT -------------------------------
+starting build "262f3882-386b-4409-b06c-846b24eae7b7"
+
+FETCHSOURCE
+Fetching storage object: gs://msds-ml-ops-25_cloudbuild/source/1744924170.535908-69f2879282b546788e298a6e7f04e134.tgz#1744924171373199
+Copying gs://msds-ml-ops-25_cloudbuild/source/1744924170.535908-69f2879282b546788e298a6e7f04e134.tgz#1744924171373199...
+/ [1 files][ 78.3 KiB/ 78.3 KiB]                                                
+Operation completed over 1 objects/78.3 KiB.
+BUILD
+Already have image (with digest): gcr.io/cloud-builders/docker
+Sending build context to Docker daemon  123.9kB
+Step 1/9 : FROM python:3.12-slim
+3.12-slim: Pulling from library/python
+8a628cdd7ccc: Already exists
+6cca951a45d1: Pulling fs layer
+b3b4f30c6749: Pulling fs layer
+e9ddbe7a005f: Pulling fs layer
+6cca951a45d1: Verifying Checksum
+6cca951a45d1: Download complete
+e9ddbe7a005f: Verifying Checksum
+e9ddbe7a005f: Download complete
+b3b4f30c6749: Verifying Checksum
+b3b4f30c6749: Download complete
+6cca951a45d1: Pull complete
+b3b4f30c6749: Pull complete
+e9ddbe7a005f: Pull complete
+Digest: sha256:85824326bc4ae27a1abb5bc0dd9e08847aa5fe73d8afb593b1b45b7cb4180f57
+Status: Downloaded newer image for python:3.12-slim
+ ---> 3d1d8f39b99d
+Step 2/9 : WORKDIR /
+ ---> Running in 8017488d380b
+Removing intermediate container 8017488d380b
+ ---> fc7671d3690b
+Step 3/9 : COPY requirements.txt requirements.txt
+ ---> 9505ffcd7238
+Step 4/9 : COPY server.sh server.sh
+ ---> 1d08996ca4d6
+Step 5/9 : ENV GOOGLE_APPLICATION_CREDENTIALS='./secrets/credentials'
+ ---> Running in dc38642c1727
+Removing intermediate container dc38642c1727
+ ---> 5f9205b510bc
+Step 6/9 : RUN pip install --upgrade pip && pip install -r requirements.txt
+ ---> Running in ad255cb1c8d3
+Requirement already satisfied: pip in /usr/local/lib/python3.12/site-packages (25.0.1)
+WARNING: Running pip as the 'root' user can result in broken permissions and conflicting behaviour with the system package manager, possibly rendering your system unusable. It is recommended to use a virtual environment instead: https://pip.pypa.io/warnings/venv. Use the --root-user-action option if you know what you are doing and want to suppress this warning.
+Collecting setuptools (from -r requirements.txt (line 1))
+  Downloading setuptools-78.1.0-py3-none-any.whl.metadata (6.6 kB)
+Collecting mlflow==2.15.1 (from -r requirements.txt (line 2))
+  Downloading mlflow-2.15.1-py3-none-any.whl.metadata (29 kB)
+Collecting psycopg2-binary==2.9.9 (from -r requirements.txt (line 3))
+  Downloading psycopg2_binary-2.9.9-cp312-cp312-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (4.4 kB)
+Collecting google-cloud-storage==2.18.2 (from -r requirements.txt (line 4))
+  Downloading google_cloud_storage-2.18.2-py2.py3-none-any.whl.metadata (9.1 kB)
+Collecting mlflow-skinny==2.15.1 (from mlflow==2.15.1->-r requirements.txt (line 2))
+  Downloading mlflow_skinny-2.15.1-py3-none-any.whl.metadata (30 kB)
+Collecting Flask<4 (from mlflow==2.15.1->-r requirements.txt (line 2))
+  Downloading flask-3.1.0-py3-none-any.whl.metadata (2.7 kB)
+Collecting alembic!=1.10.0,<2 (from mlflow==2.15.1->-r requirements.txt (line 2))
+  Downloading alembic-1.15.2-py3-none-any.whl.metadata (7.3 kB)
+Collecting docker<8,>=4.0.0 (from mlflow==2.15.1->-r requirements.txt (line 2))
+  Downloading docker-7.1.0-py3-none-any.whl.metadata (3.8 kB)
+Collecting graphene<4 (from mlflow==2.15.1->-r requirements.txt (line 2))
+  Downloading graphene-3.4.3-py2.py3-none-any.whl.metadata (6.9 kB)
+Collecting markdown<4,>=3.3 (from mlflow==2.15.1->-r requirements.txt (line 2))
+  Downloading markdown-3.8-py3-none-any.whl.metadata (5.1 kB)
+Collecting matplotlib<4 (from mlflow==2.15.1->-r requirements.txt (line 2))
+  Downloading matplotlib-3.10.1-cp312-cp312-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (11 kB)
+Collecting numpy<2 (from mlflow==2.15.1->-r requirements.txt (line 2))
+  Downloading numpy-1.26.4-cp312-cp312-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (61 kB)
+Collecting pandas<3 (from mlflow==2.15.1->-r requirements.txt (line 2))
+  Downloading pandas-2.2.3-cp312-cp312-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (89 kB)
+Collecting pyarrow<16,>=4.0.0 (from mlflow==2.15.1->-r requirements.txt (line 2))
+  Downloading pyarrow-15.0.2-cp312-cp312-manylinux_2_28_x86_64.whl.metadata (3.0 kB)
+Collecting querystring-parser<2 (from mlflow==2.15.1->-r requirements.txt (line 2))
+  Downloading querystring_parser-1.2.4-py2.py3-none-any.whl.metadata (559 bytes)
+Collecting scikit-learn<2 (from mlflow==2.15.1->-r requirements.txt (line 2))
+  Downloading scikit_learn-1.6.1-cp312-cp312-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (18 kB)
+Collecting scipy<2 (from mlflow==2.15.1->-r requirements.txt (line 2))
+  Downloading scipy-1.15.2-cp312-cp312-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (61 kB)
+Collecting sqlalchemy<3,>=1.4.0 (from mlflow==2.15.1->-r requirements.txt (line 2))
+  Downloading sqlalchemy-2.0.40-cp312-cp312-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (9.6 kB)
+Collecting Jinja2<4,>=2.11 (from mlflow==2.15.1->-r requirements.txt (line 2))
+  Downloading jinja2-3.1.6-py3-none-any.whl.metadata (2.9 kB)
+Collecting gunicorn<23 (from mlflow==2.15.1->-r requirements.txt (line 2))
+  Downloading gunicorn-22.0.0-py3-none-any.whl.metadata (4.4 kB)
+Collecting google-auth<3.0dev,>=2.26.1 (from google-cloud-storage==2.18.2->-r requirements.txt (line 4))
+  Downloading google_auth-2.39.0-py2.py3-none-any.whl.metadata (6.2 kB)
+Collecting google-api-core<3.0.0dev,>=2.15.0 (from google-cloud-storage==2.18.2->-r requirements.txt (line 4))
+  Downloading google_api_core-2.24.2-py3-none-any.whl.metadata (3.0 kB)
+Collecting google-cloud-core<3.0dev,>=2.3.0 (from google-cloud-storage==2.18.2->-r requirements.txt (line 4))
+  Downloading google_cloud_core-2.4.3-py2.py3-none-any.whl.metadata (2.7 kB)
+Collecting google-resumable-media>=2.7.2 (from google-cloud-storage==2.18.2->-r requirements.txt (line 4))
+  Downloading google_resumable_media-2.7.2-py2.py3-none-any.whl.metadata (2.2 kB)
+Collecting requests<3.0.0dev,>=2.18.0 (from google-cloud-storage==2.18.2->-r requirements.txt (line 4))
+  Downloading requests-2.32.3-py3-none-any.whl.metadata (4.6 kB)
+Collecting google-crc32c<2.0dev,>=1.0 (from google-cloud-storage==2.18.2->-r requirements.txt (line 4))
+  Downloading google_crc32c-1.7.1-cp312-cp312-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (2.3 kB)
+Collecting cachetools<6,>=5.0.0 (from mlflow-skinny==2.15.1->mlflow==2.15.1->-r requirements.txt (line 2))
+  Downloading cachetools-5.5.2-py3-none-any.whl.metadata (5.4 kB)
+Collecting click<9,>=7.0 (from mlflow-skinny==2.15.1->mlflow==2.15.1->-r requirements.txt (line 2))
+  Downloading click-8.1.8-py3-none-any.whl.metadata (2.3 kB)
+Collecting cloudpickle<4 (from mlflow-skinny==2.15.1->mlflow==2.15.1->-r requirements.txt (line 2))
+  Downloading cloudpickle-3.1.1-py3-none-any.whl.metadata (7.1 kB)
+Collecting databricks-sdk<1,>=0.20.0 (from mlflow-skinny==2.15.1->mlflow==2.15.1->-r requirements.txt (line 2))
+  Downloading databricks_sdk-0.50.0-py3-none-any.whl.metadata (38 kB)
+Collecting entrypoints<1 (from mlflow-skinny==2.15.1->mlflow==2.15.1->-r requirements.txt (line 2))
+  Downloading entrypoints-0.4-py3-none-any.whl.metadata (2.6 kB)
+Collecting gitpython<4,>=3.1.9 (from mlflow-skinny==2.15.1->mlflow==2.15.1->-r requirements.txt (line 2))
+  Downloading GitPython-3.1.44-py3-none-any.whl.metadata (13 kB)
+Collecting importlib-metadata!=4.7.0,<8,>=3.7.0 (from mlflow-skinny==2.15.1->mlflow==2.15.1->-r requirements.txt (line 2))
+  Downloading importlib_metadata-7.2.1-py3-none-any.whl.metadata (4.6 kB)
+Collecting opentelemetry-api<3,>=1.9.0 (from mlflow-skinny==2.15.1->mlflow==2.15.1->-r requirements.txt (line 2))
+  Downloading opentelemetry_api-1.32.1-py3-none-any.whl.metadata (1.6 kB)
+Collecting opentelemetry-sdk<3,>=1.9.0 (from mlflow-skinny==2.15.1->mlflow==2.15.1->-r requirements.txt (line 2))
+  Downloading opentelemetry_sdk-1.32.1-py3-none-any.whl.metadata (1.6 kB)
+Collecting packaging<25 (from mlflow-skinny==2.15.1->mlflow==2.15.1->-r requirements.txt (line 2))
+  Downloading packaging-24.2-py3-none-any.whl.metadata (3.2 kB)
+Collecting protobuf<6,>=3.12.0 (from mlflow-skinny==2.15.1->mlflow==2.15.1->-r requirements.txt (line 2))
+  Downloading protobuf-5.29.4-cp38-abi3-manylinux2014_x86_64.whl.metadata (592 bytes)
+Collecting pytz<2025 (from mlflow-skinny==2.15.1->mlflow==2.15.1->-r requirements.txt (line 2))
+  Downloading pytz-2024.2-py2.py3-none-any.whl.metadata (22 kB)
+Collecting pyyaml<7,>=5.1 (from mlflow-skinny==2.15.1->mlflow==2.15.1->-r requirements.txt (line 2))
+  Downloading PyYAML-6.0.2-cp312-cp312-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (2.1 kB)
+Collecting sqlparse<1,>=0.4.0 (from mlflow-skinny==2.15.1->mlflow==2.15.1->-r requirements.txt (line 2))
+  Downloading sqlparse-0.5.3-py3-none-any.whl.metadata (3.9 kB)
+Collecting Mako (from alembic!=1.10.0,<2->mlflow==2.15.1->-r requirements.txt (line 2))
+  Downloading mako-1.3.10-py3-none-any.whl.metadata (2.9 kB)
+Collecting typing-extensions>=4.12 (from alembic!=1.10.0,<2->mlflow==2.15.1->-r requirements.txt (line 2))
+  Downloading typing_extensions-4.13.2-py3-none-any.whl.metadata (3.0 kB)
+Collecting urllib3>=1.26.0 (from docker<8,>=4.0.0->mlflow==2.15.1->-r requirements.txt (line 2))
+  Downloading urllib3-2.4.0-py3-none-any.whl.metadata (6.5 kB)
+Collecting Werkzeug>=3.1 (from Flask<4->mlflow==2.15.1->-r requirements.txt (line 2))
+  Downloading werkzeug-3.1.3-py3-none-any.whl.metadata (3.7 kB)
+Collecting itsdangerous>=2.2 (from Flask<4->mlflow==2.15.1->-r requirements.txt (line 2))
+  Downloading itsdangerous-2.2.0-py3-none-any.whl.metadata (1.9 kB)
+Collecting blinker>=1.9 (from Flask<4->mlflow==2.15.1->-r requirements.txt (line 2))
+  Downloading blinker-1.9.0-py3-none-any.whl.metadata (1.6 kB)
+Collecting googleapis-common-protos<2.0.0,>=1.56.2 (from google-api-core<3.0.0dev,>=2.15.0->google-cloud-storage==2.18.2->-r requirements.txt (line 4))
+  Downloading googleapis_common_protos-1.70.0-py3-none-any.whl.metadata (9.3 kB)
+Collecting proto-plus<2.0.0,>=1.22.3 (from google-api-core<3.0.0dev,>=2.15.0->google-cloud-storage==2.18.2->-r requirements.txt (line 4))
+  Downloading proto_plus-1.26.1-py3-none-any.whl.metadata (2.2 kB)
+Collecting pyasn1-modules>=0.2.1 (from google-auth<3.0dev,>=2.26.1->google-cloud-storage==2.18.2->-r requirements.txt (line 4))
+  Downloading pyasn1_modules-0.4.2-py3-none-any.whl.metadata (3.5 kB)
+Collecting rsa<5,>=3.1.4 (from google-auth<3.0dev,>=2.26.1->google-cloud-storage==2.18.2->-r requirements.txt (line 4))
+  Downloading rsa-4.9.1-py3-none-any.whl.metadata (5.6 kB)
+Collecting graphql-core<3.3,>=3.1 (from graphene<4->mlflow==2.15.1->-r requirements.txt (line 2))
+  Downloading graphql_core-3.2.6-py3-none-any.whl.metadata (11 kB)
+Collecting graphql-relay<3.3,>=3.1 (from graphene<4->mlflow==2.15.1->-r requirements.txt (line 2))
+  Downloading graphql_relay-3.2.0-py3-none-any.whl.metadata (12 kB)
+Collecting python-dateutil<3,>=2.7.0 (from graphene<4->mlflow==2.15.1->-r requirements.txt (line 2))
+  Downloading python_dateutil-2.9.0.post0-py2.py3-none-any.whl.metadata (8.4 kB)
+Collecting MarkupSafe>=2.0 (from Jinja2<4,>=2.11->mlflow==2.15.1->-r requirements.txt (line 2))
+  Downloading MarkupSafe-3.0.2-cp312-cp312-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (4.0 kB)
+Collecting contourpy>=1.0.1 (from matplotlib<4->mlflow==2.15.1->-r requirements.txt (line 2))
+  Downloading contourpy-1.3.2-cp312-cp312-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (5.5 kB)
+Collecting cycler>=0.10 (from matplotlib<4->mlflow==2.15.1->-r requirements.txt (line 2))
+  Downloading cycler-0.12.1-py3-none-any.whl.metadata (3.8 kB)
+Collecting fonttools>=4.22.0 (from matplotlib<4->mlflow==2.15.1->-r requirements.txt (line 2))
+  Downloading fonttools-4.57.0-cp312-cp312-manylinux_2_5_x86_64.manylinux1_x86_64.manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (102 kB)
+Collecting kiwisolver>=1.3.1 (from matplotlib<4->mlflow==2.15.1->-r requirements.txt (line 2))
+  Downloading kiwisolver-1.4.8-cp312-cp312-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (6.2 kB)
+Collecting pillow>=8 (from matplotlib<4->mlflow==2.15.1->-r requirements.txt (line 2))
+  Downloading pillow-11.2.1-cp312-cp312-manylinux_2_28_x86_64.whl.metadata (8.9 kB)
+Collecting pyparsing>=2.3.1 (from matplotlib<4->mlflow==2.15.1->-r requirements.txt (line 2))
+  Downloading pyparsing-3.2.3-py3-none-any.whl.metadata (5.0 kB)
+Collecting tzdata>=2022.7 (from pandas<3->mlflow==2.15.1->-r requirements.txt (line 2))
+  Downloading tzdata-2025.2-py2.py3-none-any.whl.metadata (1.4 kB)
+Collecting six (from querystring-parser<2->mlflow==2.15.1->-r requirements.txt (line 2))
+  Downloading six-1.17.0-py2.py3-none-any.whl.metadata (1.7 kB)
+Collecting charset-normalizer<4,>=2 (from requests<3.0.0dev,>=2.18.0->google-cloud-storage==2.18.2->-r requirements.txt (line 4))
+  Downloading charset_normalizer-3.4.1-cp312-cp312-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (35 kB)
+Collecting idna<4,>=2.5 (from requests<3.0.0dev,>=2.18.0->google-cloud-storage==2.18.2->-r requirements.txt (line 4))
+  Downloading idna-3.10-py3-none-any.whl.metadata (10 kB)
+Collecting certifi>=2017.4.17 (from requests<3.0.0dev,>=2.18.0->google-cloud-storage==2.18.2->-r requirements.txt (line 4))
+  Downloading certifi-2025.1.31-py3-none-any.whl.metadata (2.5 kB)
+Collecting joblib>=1.2.0 (from scikit-learn<2->mlflow==2.15.1->-r requirements.txt (line 2))
+  Downloading joblib-1.4.2-py3-none-any.whl.metadata (5.4 kB)
+Collecting threadpoolctl>=3.1.0 (from scikit-learn<2->mlflow==2.15.1->-r requirements.txt (line 2))
+  Downloading threadpoolctl-3.6.0-py3-none-any.whl.metadata (13 kB)
+Collecting greenlet>=1 (from sqlalchemy<3,>=1.4.0->mlflow==2.15.1->-r requirements.txt (line 2))
+  Downloading greenlet-3.2.0-cp312-cp312-manylinux_2_24_x86_64.manylinux_2_28_x86_64.whl.metadata (4.1 kB)
+Collecting gitdb<5,>=4.0.1 (from gitpython<4,>=3.1.9->mlflow-skinny==2.15.1->mlflow==2.15.1->-r requirements.txt (line 2))
+  Downloading gitdb-4.0.12-py3-none-any.whl.metadata (1.2 kB)
+Collecting zipp>=0.5 (from importlib-metadata!=4.7.0,<8,>=3.7.0->mlflow-skinny==2.15.1->mlflow==2.15.1->-r requirements.txt (line 2))
+  Downloading zipp-3.21.0-py3-none-any.whl.metadata (3.7 kB)
+Collecting deprecated>=1.2.6 (from opentelemetry-api<3,>=1.9.0->mlflow-skinny==2.15.1->mlflow==2.15.1->-r requirements.txt (line 2))
+  Downloading Deprecated-1.2.18-py2.py3-none-any.whl.metadata (5.7 kB)
+Collecting opentelemetry-semantic-conventions==0.53b1 (from opentelemetry-sdk<3,>=1.9.0->mlflow-skinny==2.15.1->mlflow==2.15.1->-r requirements.txt (line 2))
+  Downloading opentelemetry_semantic_conventions-0.53b1-py3-none-any.whl.metadata (2.5 kB)
+Collecting pyasn1<0.7.0,>=0.6.1 (from pyasn1-modules>=0.2.1->google-auth<3.0dev,>=2.26.1->google-cloud-storage==2.18.2->-r requirements.txt (line 4))
+  Downloading pyasn1-0.6.1-py3-none-any.whl.metadata (8.4 kB)
+Collecting wrapt<2,>=1.10 (from deprecated>=1.2.6->opentelemetry-api<3,>=1.9.0->mlflow-skinny==2.15.1->mlflow==2.15.1->-r requirements.txt (line 2))
+  Downloading wrapt-1.17.2-cp312-cp312-manylinux_2_5_x86_64.manylinux1_x86_64.manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (6.4 kB)
+Collecting smmap<6,>=3.0.1 (from gitdb<5,>=4.0.1->gitpython<4,>=3.1.9->mlflow-skinny==2.15.1->mlflow==2.15.1->-r requirements.txt (line 2))
+  Downloading smmap-5.0.2-py3-none-any.whl.metadata (4.3 kB)
+Downloading mlflow-2.15.1-py3-none-any.whl (26.3 MB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 26.3/26.3 MB 49.9 MB/s eta 0:00:00
+Downloading psycopg2_binary-2.9.9-cp312-cp312-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (3.0 MB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 3.0/3.0 MB 71.4 MB/s eta 0:00:00
+Downloading google_cloud_storage-2.18.2-py2.py3-none-any.whl (130 kB)
+Downloading mlflow_skinny-2.15.1-py3-none-any.whl (5.5 MB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 5.5/5.5 MB 80.7 MB/s eta 0:00:00
+Downloading setuptools-78.1.0-py3-none-any.whl (1.3 MB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 1.3/1.3 MB 51.1 MB/s eta 0:00:00
+Downloading alembic-1.15.2-py3-none-any.whl (231 kB)
+Downloading docker-7.1.0-py3-none-any.whl (147 kB)
+Downloading flask-3.1.0-py3-none-any.whl (102 kB)
+Downloading google_api_core-2.24.2-py3-none-any.whl (160 kB)
+Downloading google_auth-2.39.0-py2.py3-none-any.whl (212 kB)
+Downloading google_cloud_core-2.4.3-py2.py3-none-any.whl (29 kB)
+Downloading google_crc32c-1.7.1-cp312-cp312-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (32 kB)
+Downloading google_resumable_media-2.7.2-py2.py3-none-any.whl (81 kB)
+Downloading graphene-3.4.3-py2.py3-none-any.whl (114 kB)
+Downloading gunicorn-22.0.0-py3-none-any.whl (84 kB)
+Downloading jinja2-3.1.6-py3-none-any.whl (134 kB)
+Downloading markdown-3.8-py3-none-any.whl (106 kB)
+Downloading matplotlib-3.10.1-cp312-cp312-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (8.6 MB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 8.6/8.6 MB 79.4 MB/s eta 0:00:00
+Downloading numpy-1.26.4-cp312-cp312-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (18.0 MB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 18.0/18.0 MB 87.6 MB/s eta 0:00:00
+Downloading pandas-2.2.3-cp312-cp312-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (12.7 MB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 12.7/12.7 MB 88.0 MB/s eta 0:00:00
+Downloading pyarrow-15.0.2-cp312-cp312-manylinux_2_28_x86_64.whl (38.3 MB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 38.3/38.3 MB 89.3 MB/s eta 0:00:00
+Downloading querystring_parser-1.2.4-py2.py3-none-any.whl (7.9 kB)
+Downloading requests-2.32.3-py3-none-any.whl (64 kB)
+Downloading scikit_learn-1.6.1-cp312-cp312-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (13.1 MB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 13.1/13.1 MB 91.9 MB/s eta 0:00:00
+Downloading scipy-1.15.2-cp312-cp312-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (37.3 MB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 37.3/37.3 MB 74.6 MB/s eta 0:00:00
+Downloading sqlalchemy-2.0.40-cp312-cp312-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (3.3 MB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 3.3/3.3 MB 72.0 MB/s eta 0:00:00
+Downloading blinker-1.9.0-py3-none-any.whl (8.5 kB)
+Downloading cachetools-5.5.2-py3-none-any.whl (10 kB)
+Downloading certifi-2025.1.31-py3-none-any.whl (166 kB)
+Downloading charset_normalizer-3.4.1-cp312-cp312-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (145 kB)
+Downloading click-8.1.8-py3-none-any.whl (98 kB)
+Downloading cloudpickle-3.1.1-py3-none-any.whl (20 kB)
+Downloading contourpy-1.3.2-cp312-cp312-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (323 kB)
+Downloading cycler-0.12.1-py3-none-any.whl (8.3 kB)
+Downloading databricks_sdk-0.50.0-py3-none-any.whl (692 kB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 692.3/692.3 kB 36.5 MB/s eta 0:00:00
+Downloading entrypoints-0.4-py3-none-any.whl (5.3 kB)
+Downloading fonttools-4.57.0-cp312-cp312-manylinux_2_5_x86_64.manylinux1_x86_64.manylinux_2_17_x86_64.manylinux2014_x86_64.whl (4.9 MB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 4.9/4.9 MB 70.3 MB/s eta 0:00:00
+Downloading GitPython-3.1.44-py3-none-any.whl (207 kB)
+Downloading googleapis_common_protos-1.70.0-py3-none-any.whl (294 kB)
+Downloading graphql_core-3.2.6-py3-none-any.whl (203 kB)
+Downloading graphql_relay-3.2.0-py3-none-any.whl (16 kB)
+Downloading greenlet-3.2.0-cp312-cp312-manylinux_2_24_x86_64.manylinux_2_28_x86_64.whl (603 kB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 603.8/603.8 kB 31.7 MB/s eta 0:00:00
+Downloading idna-3.10-py3-none-any.whl (70 kB)
+Downloading importlib_metadata-7.2.1-py3-none-any.whl (25 kB)
+Downloading itsdangerous-2.2.0-py3-none-any.whl (16 kB)
+Downloading joblib-1.4.2-py3-none-any.whl (301 kB)
+Downloading kiwisolver-1.4.8-cp312-cp312-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (1.5 MB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 1.5/1.5 MB 56.0 MB/s eta 0:00:00
+Downloading MarkupSafe-3.0.2-cp312-cp312-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (23 kB)
+Downloading opentelemetry_api-1.32.1-py3-none-any.whl (65 kB)
+Downloading opentelemetry_sdk-1.32.1-py3-none-any.whl (118 kB)
+Downloading opentelemetry_semantic_conventions-0.53b1-py3-none-any.whl (188 kB)
+Downloading packaging-24.2-py3-none-any.whl (65 kB)
+Downloading pillow-11.2.1-cp312-cp312-manylinux_2_28_x86_64.whl (4.6 MB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 4.6/4.6 MB 75.9 MB/s eta 0:00:00
+Downloading proto_plus-1.26.1-py3-none-any.whl (50 kB)
+Downloading protobuf-5.29.4-cp38-abi3-manylinux2014_x86_64.whl (319 kB)
+Downloading pyasn1_modules-0.4.2-py3-none-any.whl (181 kB)
+Downloading pyparsing-3.2.3-py3-none-any.whl (111 kB)
+Downloading python_dateutil-2.9.0.post0-py2.py3-none-any.whl (229 kB)
+Downloading pytz-2024.2-py2.py3-none-any.whl (508 kB)
+Downloading PyYAML-6.0.2-cp312-cp312-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (767 kB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 767.5/767.5 kB 42.6 MB/s eta 0:00:00
+Downloading rsa-4.9.1-py3-none-any.whl (34 kB)
+Downloading six-1.17.0-py2.py3-none-any.whl (11 kB)
+Downloading sqlparse-0.5.3-py3-none-any.whl (44 kB)
+Downloading threadpoolctl-3.6.0-py3-none-any.whl (18 kB)
+Downloading typing_extensions-4.13.2-py3-none-any.whl (45 kB)
+Downloading tzdata-2025.2-py2.py3-none-any.whl (347 kB)
+Downloading urllib3-2.4.0-py3-none-any.whl (128 kB)
+Downloading werkzeug-3.1.3-py3-none-any.whl (224 kB)
+Downloading mako-1.3.10-py3-none-any.whl (78 kB)
+Downloading Deprecated-1.2.18-py2.py3-none-any.whl (10.0 kB)
+Downloading gitdb-4.0.12-py3-none-any.whl (62 kB)
+Downloading pyasn1-0.6.1-py3-none-any.whl (83 kB)
+Downloading zipp-3.21.0-py3-none-any.whl (9.6 kB)
+Downloading smmap-5.0.2-py3-none-any.whl (24 kB)
+Downloading wrapt-1.17.2-cp312-cp312-manylinux_2_5_x86_64.manylinux1_x86_64.manylinux_2_17_x86_64.manylinux2014_x86_64.whl (89 kB)
+Installing collected packages: pytz, zipp, wrapt, urllib3, tzdata, typing-extensions, threadpoolctl, sqlparse, smmap, six, setuptools, pyyaml, pyparsing, pyasn1, psycopg2-binary, protobuf, pillow, packaging, numpy, MarkupSafe, markdown, kiwisolver, joblib, itsdangerous, idna, greenlet, graphql-core, google-crc32c, fonttools, entrypoints, cycler, cloudpickle, click, charset-normalizer, certifi, cachetools, blinker, Werkzeug, sqlalchemy, scipy, rsa, requests, querystring-parser, python-dateutil, pyasn1-modules, pyarrow, proto-plus, Mako, Jinja2, importlib-metadata, gunicorn, graphql-relay, googleapis-common-protos, google-resumable-media, gitdb, deprecated, contourpy, scikit-learn, pandas, opentelemetry-api, matplotlib, graphene, google-auth, gitpython, Flask, docker, alembic, opentelemetry-semantic-conventions, google-api-core, databricks-sdk, opentelemetry-sdk, google-cloud-core, mlflow-skinny, google-cloud-storage, mlflow
+Successfully installed Flask-3.1.0 Jinja2-3.1.6 Mako-1.3.10 MarkupSafe-3.0.2 Werkzeug-3.1.3 alembic-1.15.2 blinker-1.9.0 cachetools-5.5.2 certifi-2025.1.31 charset-normalizer-3.4.1 click-8.1.8 cloudpickle-3.1.1 contourpy-1.3.2 cycler-0.12.1 databricks-sdk-0.50.0 deprecated-1.2.18 docker-7.1.0 entrypoints-0.4 fonttools-4.57.0 gitdb-4.0.12 gitpython-3.1.44 google-api-core-2.24.2 google-auth-2.39.0 google-cloud-core-2.4.3 google-cloud-storage-2.18.2 google-crc32c-1.7.1 google-resumable-media-2.7.2 googleapis-common-protos-1.70.0 graphene-3.4.3 graphql-core-3.2.6 graphql-relay-3.2.0 greenlet-3.2.0 gunicorn-22.0.0 idna-3.10 importlib-metadata-7.2.1 itsdangerous-2.2.0 joblib-1.4.2 kiwisolver-1.4.8 markdown-3.8 matplotlib-3.10.1 mlflow-2.15.1 mlflow-skinny-2.15.1 numpy-1.26.4 opentelemetry-api-1.32.1 opentelemetry-sdk-1.32.1 opentelemetry-semantic-conventions-0.53b1 packaging-24.2 pandas-2.2.3 pillow-11.2.1 proto-plus-1.26.1 protobuf-5.29.4 psycopg2-binary-2.9.9 pyarrow-15.0.2 pyasn1-0.6.1 pyasn1-modules-0.4.2 pyparsing-3.2.3 python-dateutil-2.9.0.post0 pytz-2024.2 pyyaml-6.0.2 querystring-parser-1.2.4 requests-2.32.3 rsa-4.9.1 scikit-learn-1.6.1 scipy-1.15.2 setuptools-78.1.0 six-1.17.0 smmap-5.0.2 sqlalchemy-2.0.40 sqlparse-0.5.3 threadpoolctl-3.6.0 typing-extensions-4.13.2 tzdata-2025.2 urllib3-2.4.0 wrapt-1.17.2 zipp-3.21.0
+WARNING: Running pip as the 'root' user can result in broken permissions and conflicting behaviour with the system package manager, possibly rendering your system unusable. It is recommended to use a virtual environment instead: https://pip.pypa.io/warnings/venv. Use the --root-user-action option if you know what you are doing and want to suppress this warning.
+Removing intermediate container ad255cb1c8d3
+ ---> a1c0bd1e93ac
+Step 7/9 : EXPOSE 8080
+ ---> Running in 55702df7acaf
+Removing intermediate container 55702df7acaf
+ ---> 72442d1dedd5
+Step 8/9 : RUN chmod +x server.sh
+ ---> Running in a0089a198cd7
+Removing intermediate container a0089a198cd7
+ ---> d5141076a318
+Step 9/9 : ENTRYPOINT ["./server.sh"]
+ ---> Running in 51581d30278a
+Removing intermediate container 51581d30278a
+ ---> e6f5fc24b18a
+Successfully built e6f5fc24b18a
+Successfully tagged us-west2-docker.pkg.dev/msds-ml-ops-25/mlops-25/mlflow:v1
+PUSH
+Pushing us-west2-docker.pkg.dev/msds-ml-ops-25/mlops-25/mlflow:v1
+The push refers to repository [us-west2-docker.pkg.dev/msds-ml-ops-25/mlops-25/mlflow]
+b5f8789d9fa4: Preparing
+859e6e8823c6: Preparing
+2eb8a878ddb6: Preparing
+f4c406258142: Preparing
+68b89356c898: Preparing
+e72ee629d8b7: Preparing
+67c69e32800f: Preparing
+ea680fbff095: Preparing
+e72ee629d8b7: Waiting
+67c69e32800f: Waiting
+ea680fbff095: Waiting
+68b89356c898: Layer already exists
+e72ee629d8b7: Layer already exists
+67c69e32800f: Layer already exists
+f4c406258142: Pushed
+2eb8a878ddb6: Pushed
+b5f8789d9fa4: Pushed
+ea680fbff095: Pushed
+859e6e8823c6: Pushed
+v1: digest: sha256:7cd43e37f1157e66315b44dd8d0ba21a99c8046ca2841ab867db903a1eefaaaf size: 1993
+DONE
+-----------------------------------------------------------------------------------
+ID                                    CREATE_TIME                DURATION  SOURCE                                                                                        IMAGES                                                     STATUS
+262f3882-386b-4409-b06c-846b24eae7b7  2025-04-17T21:09:31+00:00  2M29S     gs://msds-ml-ops-25_cloudbuild/source/1744924170.535908-69f2879282b546788e298a6e7f04e134.tgz  us-west2-docker.pkg.dev/msds-ml-ops-25/mlops-25/mlflow:v1  SUCCESS
+(mlops) lab5 $ gcloud run deploy "mlops-25" --image "us-west2-docker.pkg.dev/msds-ml-ops-25/mlops-25/mlflow:v1" --region "us-west2" --service-account "mlops-25" --update-secrets=/secrets/credentials=access_keys:latest --update-secrets=POSTGRESQL_URL=database_url:latest --update-secrets=STORAGE_URL=bucket_url:latest --memory 2Gi --allow-unauthenticated --port 8080
+Deploying container to Cloud Run service [mlops-25] in project [msds-ml-ops-25] region [us-west2]
+X Deploying...                                                                    
+  - Creating Revision...                                                          
+  . Routing traffic...                                                            
+  ✓ Setting IAM Policy...                                                         
+Deployment failed                                                                 
+ERROR: (gcloud.run.deploy) Revision 'mlops-25-00002-tt8' is not ready and cannot serve traffic. spec.template.spec.volumes[0].secret.items[0].key: Secret projects/634030133521/secrets/access_keys/versions/latest was not found
+spec.template.spec.volumes[1].secret.items[0].key: Secret projects/634030133521/secrets/access_keys/versions/latest was not found
+(mlops) lab5 $ gcloud secrets list
+
+NAME          CREATED              REPLICATION_POLICY  LOCATIONS
+access_key    2025-04-17T20:49:35  automatic           -
+bucket_url    2025-04-17T20:53:04  automatic           -
+database_url  2025-04-17T20:51:58  automatic           -
+(mlops) lab5 $ gcloud run deploy "mlops-25" --image "us-west2-docker.pkg.dev/msds-ml-ops-25/mlops-25/mlflow:v1" --region "us-west2" --service-account "mlops-25" --update-secrets=/secrets/credentials=access_key:latest --update-secrets=POSTGRESQL_URL=database_url:latest --update-secrets=STORAGE_URL=bucket_url:latest --memory 2Gi --allow-unauthenticated --port 8080
+Deploying container to Cloud Run service [mlops-25] in project [msds-ml-ops-25] region [us-west2]
+✓ Deploying... Done.                                                              
+  ✓ Creating Revision...                                                          
+  ✓ Routing traffic...                                                            
+  ✓ Setting IAM Policy...                                                         
+Done.                                                                             
+Service [mlops-25] revision [mlops-25-00004-5hb] has been deployed and is serving 100 percent of traffic.
+Service URL: https://mlops-25-634030133521.us-west2.run.app
+(mlops) lab5 $ 
+
